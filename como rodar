@@ -1,0 +1,10 @@
+compilacao:
+    todos os aquivos juntos no src, o make compila a main e a main2 e o make clean apaga os executaveis e o binario.bin
+
+existe duas mains, a main e a main2.
+
+main: le a matriz esparsa e armazena-a em bin (nao recebe comandos, apenas le ela e armazena)
+    ex: ./main < ../input/matriz_1
+
+main2: le sozinha o bonario.bin e recebe os comandos de teste
+    ex: ./main2
