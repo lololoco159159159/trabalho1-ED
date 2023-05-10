@@ -22,4 +22,13 @@ void list_imprime_linha(List *l);
 void list_destroy_linha(List *l);
 void list_destroy_coluna(List *l);
 void list_imprime_linha_esparso(List *l, int tamColuna);
+void list_imprime_bin(List *l, int tamColuna, FILE *bin);
+Node *node_verifica_existe(List *l, int coluna);
+Node *node_new_construct(List *listLinha, List *listColuna, int linha, int coluna, data_type value);
+void list_ajeita_entrada_node_linha(List *l, Node *node, Node *last_antigo);
+void list_ajeita_entrada_node_coluna(List *l, Node *node, Node *last_antigo);
+void list_remove_linha(List *l, int linha, int coluna);
+void list_remove_coluna(List *l, int linha, int coluna);
+int list_size(List *l);
+
 #endif

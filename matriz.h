@@ -15,5 +15,7 @@ void matriz_armazena_node(List *linha, List *coluna, data_type value, int ilinha
 void matriz_read();
 void matriz_imprime_debug(Matriz *matriz);
 void matriz_destruct(Matriz *matriz);
-void matriz_add_value(Matriz *matriz);
+void matriz_armazena_bin(Matriz *matriz, FILE *bin);
+Matriz *matriz_le_bin(FILE *bin);
+void matriz_insere_value(Matriz *matriz, int linha, int coluna, data_type value);
 #endif
