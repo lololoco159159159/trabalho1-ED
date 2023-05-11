@@ -1,19 +1,16 @@
 V       Criar matriz e destruir matriz.                         
 V       Atribuir valores à uma célula a partir da linha e coluna.
-Ler valores de uma célula a partir da linha e coluna.
-Somar matrizes.
-Multiplicar matrizes por um escalar.
-Multiplicar matrizes.
-Multiplicação ponto a ponto entre matrizes: dadas duas matrizes M1 e M2, com as
-mesmas dimensões, a operação gera como saída uma matriz M3 com as mesmas
-dimensões das entradas e tal que M3(i, j) = M1(i, j) * M2(i, j).
+V       Ler valores de uma célula a partir da linha e coluna.
+V       Somar matrizes.
+V       Multiplicar matrizes por um escalar.
+V       Multiplicar matrizes.
+V       Multiplicação ponto a ponto entre matrizes: dadas duas matrizes M1 e M2, com as mesmas dimensões, a operação gera como saída uma matriz M3 com as mesmas dimensões das entradas e tal que M3(i, j) = M1(i, j) * M2(i, j).
 Trocar (swap) duas linhas.
 Trocar (swap) duas colunas.
-Slice: retornar a submatriz retangular definida por um ponto esquerdo superior (início)
-e um ponto direito inferior (fim). A Figura 2 ilustra a operação.
+Slice: retornar a submatriz retangular definida por um ponto esquerdo superior (início) e um ponto direito inferior (fim). A Figura 2 ilustra a operação.
 Transpor uma matriz.
 Realizar a convolução de uma matriz por outra matriz chamada de kernel
-Mostrar uma matriz na tela em formato esparso (apenas os itens diferentes de zero).
-Mostrar uma matriz na tela em formato denso.
+P  Mostrar uma matriz na tela em formato esparso (apenas os itens diferentes de zero).
+P  Mostrar uma matriz na tela em formato denso.
 V       Salvar matriz esparsa em um arquivo binário. Apenas os valores não nulos devem ser salvos.
 V       Ler matriz esparsa de um arquivo binário.
