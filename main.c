@@ -2,18 +2,16 @@
 #include <stdlib.h>
 #include "matriz.h"
 
-void print_float(data_type x){
-    printf("%f", x);
-}
-
-
 int main (){
     int tamLinha = 0, tamColuna = 0;
-    scanf("%d %d", &tamLinha, &tamColuna);
 
+    scanf("%d %d", &tamLinha, &tamColuna);
     Matriz *matriz = matriz_construct(tamLinha, tamColuna);
     matriz_read(matriz);
-    //matriz_imprime_debug(matriz);
+    
+    scanf("%d %d", &tamLinha, &tamColuna);
+    Matriz *matriz2 = matriz_construct(tamLinha, tamColuna);
+    matriz_read(matriz2);
 
     //armazena em bin    
     FILE *bin = fopen("binario.bin", "wb");
@@ -23,6 +21,7 @@ int main (){
     }
 
     matriz_armazena_bin(matriz, bin);
+    matriz_armazena_bin(matriz2, bin);
     fclose(bin);
     
     matriz_destruct(matriz);

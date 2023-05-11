@@ -18,4 +18,9 @@ void matriz_destruct(Matriz *matriz);
 void matriz_armazena_bin(Matriz *matriz, FILE *bin);
 Matriz *matriz_le_bin(FILE *bin);
 void matriz_insere_value(Matriz *matriz, int linha, int coluna, data_type value);
+Matriz *matriz_add(Matriz *m1, Matriz *m2);
+data_type matriz_value_linha_coluna(Matriz *m, int linha, int coluna);
+void matriz_multiplica_escalar(Matriz *m, int escalar);
+Matriz *matriz_multiplica_matriz(Matriz *m1, Matriz *m2);
+Matriz *matriz_multiplica_ponto_a_ponto(Matriz *m1, Matriz *m2);
 #endif
