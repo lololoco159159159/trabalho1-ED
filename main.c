@@ -23,8 +23,8 @@ int main (){
     matriz_armazena_bin(matriz, bin);
     matriz_armazena_bin(matriz2, bin);
     fclose(bin);
-    
     matriz_destruct(matriz);
+    matriz_destruct(matriz2);
     return 0;
 }
 

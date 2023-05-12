@@ -75,5 +75,3 @@ int node_coluna(Node *n){
 
 
 
-
-

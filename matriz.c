@@ -9,6 +9,17 @@ void matriz_imprime_debug(Matriz *matriz){
     printf("%d %d\n", matriz->tamLinha, matriz->tamColuna);
     printf("formato denso:\n");
     for(i = 0; i < matriz->tamLinha; i++){
+        if(matriz->linhas[i]->head == NULL){
+            continue;
+        }
+        /*printf("head: ");
+        node_printf_debug(matriz->linhas[i]->head, 'l');
+        printf("  ");
+        printf("last: ");
+        node_printf_debug(matriz->linhas[i]->last, 'l');
+        printf("    ");
+        */
+        
         list_imprime_linha_esparso(matriz->linhas[i], matriz->tamColuna);
         printf("\n");
     }
@@ -20,7 +31,7 @@ void matriz_imprime_debug(Matriz *matriz){
         printf("\n");
     }*/
     
-    
+    /*
     printf("\ndados linhas:\n");
     for(i = 0; i < matriz->tamLinha; i++){
         list_imprime_debug_linha(matriz->linhas[i]);
@@ -28,12 +39,13 @@ void matriz_imprime_debug(Matriz *matriz){
         printf("\n");
     }
     
+    
     printf("\ndados colunas:\n");
     for(i = 0; i < matriz->tamColuna; i++){
         list_imprime_debug_coluna(matriz->colunas[i]);
         printf("  tam: %d", list_size(matriz->colunas[i]));
         printf("\n");
-    }
+    }*/
     
 }
 
@@ -143,6 +155,8 @@ void matriz_insere_value(Matriz *matriz, int linha, int coluna, data_type value)
             list_ajeita_entrada_node_coluna(matriz->colunas[coluna], aux, lastColuna);
         }
     }
+    list_ajeita_last_linha(matriz->linhas[linha]);
+    list_ajeita_last_coluna(matriz->colunas[coluna]);
 }
 
 Matriz *matriz_add(Matriz *m1, Matriz *m2){
@@ -280,4 +294,206 @@ Matriz *matriz_multiplica_matriz(Matriz *m1, Matriz *m2){
     return m3;
 }
 
+void matriz_swap_linha(Matriz *m, int l1, int l2){
+    Node *node1 = NULL;
+    Node *node2 = NULL;
+
+    for(int i = 0; i < m->tamColuna; i++){
+        node1 = node_verifica_existe(m->linhas[l1], i);
+        node2 = node_verifica_existe(m->linhas[l2], i);
+        if(node1 != NULL || node2 != NULL){
+            node_swap_linha(m, node1, node2, l1, l2);
+        }
+    }
+}
+
+void matriz_swap_coluna(Matriz *m, int c1, int c2){
+    Node *node1 = NULL;
+    Node *node2 = NULL;
+    for(int i = 0; i < m->tamLinha; i++){
+        node1 = node_verifica_existe_via_coluna(m->colunas[c1], i);
+        node2 = node_verifica_existe_via_coluna(m->colunas[c2], i);
+        if(node1 != NULL || node2 != NULL){
+            node_swap_coluna(m, node1, node2, c1, c2);
+        }
+    }
+
+
+}
+
+void node_swap_linha(Matriz *m, Node *node1, Node *node2, int l1, int l2){
+    data_type value = 0;
+
+    if(node1 == NULL){
+        printf("a troquei %.0f %.0f\n", node2->value , 0.0);
+        matriz_insere_value(m, l1, node2->coluna, node2->value);
+        matriz_insere_value(m, l2, node2->coluna, 0.0);
+        
+    }
+    else if(node2 == NULL){
+        printf("b troquei %.0f %.0f\n", node1->value , 0.0);
+        matriz_insere_value(m, l2, node1->coluna, node1->value);
+        matriz_insere_value(m, l1, node1->coluna, 0.0);
+        
+    }
+    else{
+        printf("c troquei %.0f %.0f\n", node1->value , node2->value);
+        value = node1->value;
+        node1->value = node2->value;
+        node2->value = value;
+    }
+}
+
+void node_swap_coluna(Matriz *m, Node *node1, Node *node2, int c1, int c2){
+    data_type value = 0;
+    if(node1 == NULL){
+        printf("a troquei %.0f %.0f\n", node2->value , 0.0);
+        matriz_insere_value(m, node2->linha, c1, node2->value);
+        matriz_insere_value(m, node2->linha, c2, 0.0);
+        
+    }
+    else if(node2 == NULL){
+        printf("b troquei %.0f %.0f\n", node1->value , 0.0);
+        matriz_insere_value(m, node1->linha, c2, node1->value);
+        matriz_insere_value(m, node1->linha, c1, 0.0);
+    }
+    else{
+        printf("c troquei %.0f %.0f\n", node1->value, node2->value);
+        value = node1->value;
+        node1->value = node2->value;
+        node2->value = value;
+    }
+}
+
+Matriz *matriz_transposta(Matriz *m){
+    Matriz *trans = matriz_construct(m->tamColuna, m->tamLinha);
+    Node *aux = NULL;
+    for(int i = 0; i < m->tamLinha; i++){
+        aux = m->linhas[i]->head;
+        while(aux != NULL){
+            matriz_insere_value(trans, aux->coluna, i, aux->value);
+            aux = aux->linhaNext;
+        }
+    }
+    return trans;
+}
+
+Matriz *matriz_slice(Matriz *m, int l, int c, int l2, int c2){ 
+    int tamLinha = 0, tamColuna = 0, i = 0, acabou = 0, colunaInicial = c;
+    tamLinha = (l2-l)+1;
+    tamColuna = (c2-c)+1;
+    Matriz *slice = matriz_construct(tamLinha, tamColuna);
+    Node *aux = NULL;
+
+    for(i = 0; l <= l2; i++, l++){
+        aux = m->linhas[l]->head;
+        if(aux == NULL)
+            continue;
+        while(aux != NULL){
+            while(aux->coluna < c){
+                aux = aux->linhaNext;
+                if(aux == NULL){
+                    acabou = 1;
+                    break;
+                }
+            }
+            if(acabou){
+                break;
+            }
+            if(aux->coluna == c){
+                matriz_insere_value(slice, i, (aux->coluna - colunaInicial), aux->value);
+                aux = aux->linhaNext;
+            }
+            if(aux == NULL){
+                break;
+            }
+            while(c < aux->coluna){
+                c++;
+                if(c > c2){
+                    acabou = 1;
+                    break;
+                }
+            }
+            if(acabou){
+                break;
+            }
+        }
+        acabou = 0;
+        c = colunaInicial;
+    }
+
+    return slice;
+}
+
+Matriz *matriz_convulacao(Matriz *m1, Matriz *kernel){
+    Matriz *m3 = matriz_construct(m1->tamLinha, m1->tamColuna);
+    data_type value = 0;
+    int ilinha = 0, icoluna = 0;
+
+    for(ilinha = 0; ilinha < m1->tamLinha; ilinha++){
+        for(icoluna = 0; icoluna < m1->tamColuna; icoluna++){
+            value = calcula_value_convulacao(m1, kernel, ilinha, icoluna);
+            if (value != 0)
+                matriz_insere_value(m3, ilinha, icoluna, value);
+        }
+    }
+    return m3;
+}
+
+data_type calcula_value_convulacao(Matriz *m1, Matriz *kernel, int linhaCentral, int colunaCentral){
+    data_type value = 0;
+    int Mlinha1 = 0, Mcoluna1 = 0, Mlinha2 = 0, Mcoluna2 = 0; //coordenadas para o slice
+    int Klinha1 = 1, Kcoluna1 = 0, Klinha2 = 0, Kcoluna2 = 0;
+    int vazouLinha1 = 0, vazouColuna1 = 0, vazouLinha2 = 0, vazouColuna2 = 0;
+    int constant = 0;
+
+    constant = (kernel->tamLinha/2);
+    Mlinha1 = linhaCentral - constant;
+    Mcoluna1 = colunaCentral - constant;
+    Mlinha2 = linhaCentral + constant;
+    Mcoluna2 = colunaCentral + constant;
+
+    if(Mlinha1 < 0){
+        vazouLinha1 = 0 - Mlinha1;
+        Mlinha1 = 0;
+    }
+    if(Mcoluna1 < 0){
+        vazouColuna1 = 0 - Mcoluna1;
+        Mcoluna1 = 0;
+    }
+    if(Mlinha2 >= m1->tamLinha){
+        vazouLinha2 = Mlinha2 - m1->tamLinha+1;
+        Mlinha2 = m1->tamLinha-1;
+    }
+    if(Mcoluna2 >= m1->tamColuna){
+        vazouColuna2 = Mcoluna2 - m1->tamColuna+1;
+        Mcoluna2 = m1->tamColuna-1;
+    }
+    Klinha1 =  vazouLinha1;
+    Kcoluna1 =  vazouColuna1;
+    Klinha2 =  2*constant - vazouLinha2;
+    Kcoluna2 = 2*constant - vazouColuna2;
+    
+    Matriz *m1Aux = matriz_slice(m1, Mlinha1, Mcoluna1, Mlinha2, Mcoluna2);
+    Matriz *kernelAux = matriz_slice(kernel, Klinha1, Kcoluna1, Klinha2, Kcoluna2);
+    Matriz *multiplicada = matriz_multiplica_ponto_a_ponto(m1Aux, kernelAux);
+    value = matriz_soma_dos_termos(multiplicada);
+    matriz_destruct(m1Aux);
+    matriz_destruct(kernelAux);
+    matriz_destruct(multiplicada);
+    return value;
+}
+
+data_type matriz_soma_dos_termos(Matriz *m){
+    data_type value = 0;
+    Node *aux = NULL;
+    for(int i = 0; i < m->tamLinha; i++){
+        aux = m->linhas[i]->head;
+        while(aux != NULL){
+            value += aux->value;
+            aux = aux->linhaNext;
+        }
+    }
+    return value;
+}
 

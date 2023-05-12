@@ -30,5 +30,8 @@ void list_ajeita_entrada_node_coluna(List *l, Node *node, Node *last_antigo);
 void list_remove_linha(List *l, int linha, int coluna);
 void list_remove_coluna(List *l, int linha, int coluna);
 int list_size(List *l);
+void list_ajeita_last_linha(List *l);
+void list_ajeita_last_coluna(List *l);
+Node *node_verifica_existe_via_coluna(List *l, int linha);
 
 #endif

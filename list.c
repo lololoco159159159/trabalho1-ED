@@ -137,6 +137,17 @@ Node *node_verifica_existe(List *l, int coluna){
     return NULL;
 }
 
+Node *node_verifica_existe_via_coluna(List *l, int linha){
+    Node *aux = l->head;
+    while(aux != NULL){
+        if (aux->linha == linha){
+            return aux;
+        }
+        aux = aux->colunaNext;
+    }
+    return NULL;
+}
+
 Node *node_new_construct(List *listLinha, List *listColuna, int linha, int coluna, data_type value){
 
     Node *nodeLinhaPrev, *nodeLinhaNext, *nodeColunaPrev, *nodeColunaNext, *aux = listLinha->head;
@@ -323,4 +334,37 @@ void list_remove_coluna(List *l, int linha, int coluna){
 int list_size(List *l){
     return l->size;
 }
+
+void list_ajeita_last_linha(List *l){
+    Node *aux = l->head;
+    if(aux == NULL){
+        l->last = NULL;
+        return;
+    }
+    while(aux->linhaNext != NULL){
+        aux = aux->linhaNext;
+        if(aux->linhaNext == NULL){
+            l->last = aux;
+            break;
+        }
+    }
+}
+
+void list_ajeita_last_coluna(List *l){
+    Node *aux = l->head;
+    if(aux == NULL){
+        l->last = NULL;
+        return;
+    }
+    while(aux->colunaNext != NULL){
+        aux = aux->colunaNext;
+        if(aux->colunaNext == NULL){
+            l->last = aux;
+            break;
+        }
+    }
+}
+
+
+
 
