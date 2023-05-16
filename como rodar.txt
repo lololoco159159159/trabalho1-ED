@@ -1,0 +1,45 @@
+compilacao:
+    todos os aquivos juntos no src, o make compila a main e a main2 e o make clean apaga os executaveis e o binario.bin
+
+existe duas mains, a main e a main2.
+
+main: le a matriz esparsa e armazena-a em bin (nao recebe comandos, apenas le ela e armazena)
+    - ex: ./main < ../input/matriz_1
+    - le duas matrizes e armazena em bin
+
+main2: le sozinha o bonario.bin e recebe os comandos de teste
+    - ex: ./main2
+    - le duas matrizes do bin e realiza as operacoes criando e apagando uma matriz3 caso necessario
+
+obs.:
+    - o loop é apenas para testar a funcao e printar logo em seguida, pode-se misturar algumas funcoes antes de printar, mas o correto é testar apenas um tipo e encerrar,
+    já que a matriz 3 é destruida e construida a medida do necessario para teste
+    - apos realizar a operacao, basta efetuar a operacao 1 (imprimir matrizes) para conferir o resultado
+    - operacoes que usam apenas uma matriz sempre usarao a primeira matriz do input
+    - a operacao de convulacao usa a primeira matriz como matriz de entrada e a segunda como kernel
+    - a complexidade das funcoes esta descrita no resumo delas no .h
+
+complexidade:
+    - n = linha
+    - m = coluna
+    - n2 e m2 representam linha e coluna da segunda matriz
+input:
+    - a entrada eh dada no modelo:
+    
+        linha coluna
+        a11 a12 a13
+        a21 a22 a23
+        a31 a32 a33
+        linha coluna
+        b11 b12
+        b21 b22
+
+    ex: 
+        4 4
+        1 0 0 4
+        5 0 1 0
+        5 4 0 0
+        3 3
+        4 0 0
+        0 0 1
+        2 0 1

@@ -1,16 +1,16 @@
-V       Criar matriz e destruir matriz.                         
-V       Atribuir valores à uma célula a partir da linha e coluna.
-V       Ler valores de uma célula a partir da linha e coluna.
-V       Somar matrizes.
-V       Multiplicar matrizes por um escalar.
-V       Multiplicar matrizes.
-V       Multiplicação ponto a ponto entre matrizes: dadas duas matrizes M1 e M2, com as mesmas dimensões, a operação gera como saída uma matriz M3 com as mesmas dimensões das entradas e tal que M3(i, j) = M1(i, j) * M2(i, j).
-Trocar (swap) duas linhas.
-Trocar (swap) duas colunas.
-Slice: retornar a submatriz retangular definida por um ponto esquerdo superior (início) e um ponto direito inferior (fim). A Figura 2 ilustra a operação.
-Transpor uma matriz.
-Realizar a convolução de uma matriz por outra matriz chamada de kernel
-P  Mostrar uma matriz na tela em formato esparso (apenas os itens diferentes de zero).
-P  Mostrar uma matriz na tela em formato denso.
-V       Salvar matriz esparsa em um arquivo binário. Apenas os valores não nulos devem ser salvos.
-V       Ler matriz esparsa de um arquivo binário.
+Vo       Criar matriz e destruir matriz.                         
+Vo       Atribuir valores à uma célula a partir da linha e coluna.
+Vo       Ler valores de uma célula a partir da linha e coluna.
+Vo       Somar matrizes.
+Vo       Multiplicar matrizes por um escalar.
+Vo       Multiplicar matrizes.
+Vo       Multiplicação ponto a ponto entre matrizes: dadas duas matrizes M1 e M2, com as mesmas dimensões, a operação gera como saída uma matriz M3 com as mesmas dimensões das entradas e tal que M3(i, j) = M1(i, j) * M2(i, j).
+Vo       Trocar (swap) duas linhas.
+Vo       Trocar (swap) duas colunas.
+Vo       Transpor uma matriz.
+Vo       Slice: retornar a submatriz retangular definida por um ponto esquerdo superior (início) e um ponto direito inferior (fim). A Figura 2 ilustra a operação.
+Vo       Realizar a convolução de uma matriz por outra matriz chamada de kernel
+Vo       Mostrar uma matriz na tela em formato esparso (apenas os itens diferentes de zero).
+Vo       Mostrar uma matriz na tela em formato denso.
+Vo       Salvar matriz esparsa em um arquivo binário. Apenas os valores não nulos devem ser salvos.
+Vo       Ler matriz esparsa de um arquivo binário.
