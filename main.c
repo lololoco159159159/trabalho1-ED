@@ -12,8 +12,7 @@ int main (){
     scanf("%d %d", &tamLinha, &tamColuna);
     Matriz *matriz2 = matriz_construct(tamLinha, tamColuna);
     matriz_read(matriz2);
-
-    //armazena em bin    
+   
     FILE *bin = fopen("binario.bin", "wb");
     if (bin == NULL){
         printf("Erro! o documento binario nao foi inicializado com sucesso!\n");

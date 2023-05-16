@@ -20,15 +20,6 @@ void list_imprime_debug_coluna(List *l){
     }
 }
 
-void list_imprime_linha(List *l){
-    Node *aux = l->head;
-    while(aux != NULL){
-        node_printf(aux);
-        printf(" ");
-        aux = aux->linhaNext;
-    }
-}
-
 List **lists_construct(int tam){
     int i = 0;
     List **lists = (List**)malloc(sizeof(List*) * tam);
@@ -91,7 +82,16 @@ void list_destroy_coluna(List *l){
     free(l);
 }
 
-void list_imprime_linha_esparso(List *l, int tamColuna){
+void list_imprime_linha_esparso(List *l){
+    Node *aux = l->head;
+    while(aux != NULL){
+        node_print_esparso(aux);
+        printf(" | ");
+        aux = aux->linhaNext;
+    }
+}
+
+void list_imprime_linha_denso(List *l, int tamColuna){
     Node *aux = l->head;
     for(int i = 0; i < tamColuna; i++){
         if(aux != NULL){

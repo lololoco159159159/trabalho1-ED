@@ -50,7 +50,7 @@ void executaOpcao(Matriz *m1, Matriz *m2, Matriz *m3){
                     }
                     m3 = matriz_add(m1, m2);
                     printf("matriz3 criada:\n");
-                    matriz_imprime_debug(m3);
+                    matriz_imprime(m3);
                     printf("\n");
                 }
                 else{
@@ -209,14 +209,14 @@ void MultiplicaMatrizPorEscalar(Matriz *m1){
 
 void ImprimeMatrizes(Matriz *m1, Matriz *m2, Matriz *m3, int crioum3){
     printf("matriz1:\n");
-    matriz_imprime_debug(m1);
+    matriz_imprime(m1);
     printf("\n");
     printf("matriz2:\n");
-    matriz_imprime_debug(m2);
+    matriz_imprime(m2);
     printf("\n");
     if(crioum3){
         printf("matriz3:\n");
-        matriz_imprime_debug(m3);
+        matriz_imprime(m3);
         printf("\n");
     }
 }

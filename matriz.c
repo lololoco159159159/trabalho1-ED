@@ -3,34 +3,12 @@
 #include "matriz.h"
 
 
-void matriz_imprime_debug(Matriz *matriz){
-    int i = 0;
-    
-    printf("%d %d\n", matriz->tamLinha, matriz->tamColuna);
-    printf("formato denso:\n");
-    for(i = 0; i < matriz->tamLinha; i++){
-        if(matriz->linhas[i]->head == NULL){
-            continue;
-        }
-        /*printf("head: ");
-        node_printf_debug(matriz->linhas[i]->head, 'l');
-        printf("  ");
-        printf("last: ");
-        node_printf_debug(matriz->linhas[i]->last, 'l');
-        printf("    ");
-        */
-        
-        list_imprime_linha_esparso(matriz->linhas[i], matriz->tamColuna);
-        printf("\n");
-    }
-    
-
-    /*printf("\nformato esparso: \n");
-    for(i = 0; i < matriz->tamLinha; i++){
-        list_imprime_linha(matriz->linhas[i]);
-        printf("\n");
-    }*/
-    
+void matriz_imprime(Matriz *matriz){
+    //int i = 0;
+    matriz_imprime_denso(matriz);
+    matriz_imprime_esparso(matriz);
+    printf("-------------------------------\n");
+    //debug linha
     /*
     printf("\ndados linhas:\n");
     for(i = 0; i < matriz->tamLinha; i++){
@@ -39,7 +17,7 @@ void matriz_imprime_debug(Matriz *matriz){
         printf("\n");
     }
     
-    
+    //debug coluna
     printf("\ndados colunas:\n");
     for(i = 0; i < matriz->tamColuna; i++){
         list_imprime_debug_coluna(matriz->colunas[i]);
@@ -47,6 +25,24 @@ void matriz_imprime_debug(Matriz *matriz){
         printf("\n");
     }*/
     
+}
+
+void matriz_imprime_denso(Matriz *matriz){
+    printf("%d %d\n", matriz->tamLinha, matriz->tamColuna);
+    printf("formato denso:\n");
+    for(int i = 0; i < matriz->tamLinha; i++){       
+        list_imprime_linha_denso(matriz->linhas[i], matriz->tamColuna);
+        printf("\n");
+    }
+        
+}
+
+void matriz_imprime_esparso(Matriz *matriz){
+    printf("\nformato esparso: \n");
+    for(int i = 0; i < matriz->tamLinha; i++){
+        list_imprime_linha_esparso(matriz->linhas[i]);
+        printf("\n");
+    }
 }
 
 Matriz *matriz_construct(int tamLinha, int tamColuna){
@@ -125,38 +121,38 @@ Matriz *matriz_le_bin(FILE *bin){
     return matriz;
 }
 
-void matriz_insere_value(Matriz *matriz, int linha, int coluna, data_type value){
+void matriz_insere_value(Matriz *matriz, int linha, int coluna, data_type value){//complexidade: O(n) + O(m)
     if (linha < 0 || linha >= matriz->tamLinha || coluna < 0 || coluna >= matriz->tamColuna){
         printf("linha ou coluna invalida!\n");
         return;
     }
 
-    Node *aux = node_verifica_existe(matriz->linhas[linha], coluna);
+    Node *aux = node_verifica_existe(matriz->linhas[linha], coluna); //complexidade: O(n)
     if(aux != NULL){
         if(value != 0){
             aux->value = value;
         }
         else if(value == 0){
-            list_remove_linha(matriz->linhas[linha], linha, coluna);
-            list_remove_coluna(matriz->colunas[coluna], linha, coluna);
+            list_remove_linha(matriz->linhas[linha], linha, coluna);//complexidade: O(n)
+            list_remove_coluna(matriz->colunas[coluna], linha, coluna);//complexidade: O(m)
         }
     }
     else{
         if(value != 0){
-            aux = node_new_construct(matriz->linhas[linha], matriz->colunas[coluna], linha, coluna, value);
+            aux = node_new_construct(matriz->linhas[linha], matriz->colunas[coluna], linha, coluna, value);//complexidade: O(1)
 
             Node *lastLinha = matriz->linhas[linha]->last;
             Node *lastColuna = matriz->colunas[coluna]->last;
 
-            list_push_back_linha(matriz->linhas[linha], aux);
-            list_push_back_coluna(matriz->colunas[coluna], aux);
+            list_push_back_linha(matriz->linhas[linha], aux);//complexidade: O(1)
+            list_push_back_coluna(matriz->colunas[coluna], aux);//complexidade: O(1)
 
-            list_ajeita_entrada_node_linha(matriz->linhas[linha], aux, lastLinha);
-            list_ajeita_entrada_node_coluna(matriz->colunas[coluna], aux, lastColuna);
+            list_ajeita_entrada_node_linha(matriz->linhas[linha], aux, lastLinha);//complexidade: O(1)
+            list_ajeita_entrada_node_coluna(matriz->colunas[coluna], aux, lastColuna);//complexidade: O(1)
         }
     }
-    list_ajeita_last_linha(matriz->linhas[linha]);
-    list_ajeita_last_coluna(matriz->colunas[coluna]);
+    list_ajeita_last_linha(matriz->linhas[linha]);//complexidade: O(n)
+    list_ajeita_last_coluna(matriz->colunas[coluna]);//complexidade: O(m)
 }
 
 Matriz *matriz_add(Matriz *m1, Matriz *m2){
@@ -165,22 +161,22 @@ Matriz *matriz_add(Matriz *m1, Matriz *m2){
     Node *aux = NULL;
     Node *node_verifica = NULL;
 
-    for(ilinha = 0; ilinha < m1->tamLinha; ilinha++){
+    for(ilinha = 0; ilinha < m1->tamLinha; ilinha++){//complexidade: O(n)
         //matriz1
         aux = m1->linhas[ilinha]->head;
-        while(aux != NULL){
-            matriz_insere_value(m3, aux->linha, aux->coluna, aux->value);
+        while(aux != NULL){//complexidade: O(m1)
+            matriz_insere_value(m3, aux->linha, aux->coluna, aux->value);////complexidade: O(n) + O(m)
             aux = aux->linhaNext;
         }
         //matriz2
         aux = m2->linhas[ilinha]->head;
-        while(aux != NULL){
-            node_verifica = node_verifica_existe(m3->linhas[ilinha], aux->coluna);
+        while(aux != NULL){//complexidade: O(m2)
+            node_verifica = node_verifica_existe(m3->linhas[ilinha], aux->coluna);//complexidade: O(n)
             if(node_verifica == NULL){
-                matriz_insere_value(m3, aux->linha, aux->coluna, aux->value);
+                matriz_insere_value(m3, aux->linha, aux->coluna, aux->value);//complexidade: O(n) + O(m2)
             }
             else{
-                matriz_insere_value(m3, aux->linha, aux->coluna, aux->value + (node_verifica->value));
+                matriz_insere_value(m3, aux->linha, aux->coluna, aux->value + (node_verifica->value));//complexidade: O(n) + O(m2)
             }
             aux = aux->linhaNext;
         }
@@ -242,7 +238,7 @@ void matriz_multiplica_escalar(Matriz *m, int escalar){
         aux = m->linhas[i]->head;
         while(aux != NULL){
             value = aux->value;
-            matriz_insere_value(m, i, aux->coluna, (value*escalar));
+            matriz_insere_value(m, i, aux->coluna, (value*escalar));//comp: O(n) + O(m)
             aux = aux->linhaNext;
         }
     }
@@ -314,7 +310,7 @@ void matriz_swap_coluna(Matriz *m, int c1, int c2){
         node1 = node_verifica_existe_via_coluna(m->colunas[c1], i);
         node2 = node_verifica_existe_via_coluna(m->colunas[c2], i);
         if(node1 != NULL || node2 != NULL){
-            node_swap_coluna(m, node1, node2, c1, c2);
+            node_swap_coluna(m, node1, node2, c1, c2);//n + m
         }
     }
 

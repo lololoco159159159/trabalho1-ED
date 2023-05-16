@@ -6,12 +6,12 @@ void node_destroy(Node *n){
     free(n);
 }
 
-void node_print(Node *n, void (*print_fn)(data_type)){
-    print_fn(n->value);
+void node_printf(Node *n){
+    printf("%.1f", n->value);
 }
 
-void node_printf(Node *n){
-    printf("%.0f", n->value);
+void node_print_esparso(Node *n){
+    printf("(%d,%d) = %.1f", n->linha, n->coluna, n->value);
 }
 
 void node_printf_debug(Node *n , char comando){
