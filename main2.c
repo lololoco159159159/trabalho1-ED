@@ -260,7 +260,7 @@ int ConfereOperacaoSwapValida(Matriz *m, int x1, int x2, char comando){
 }
 
 int ConfereConvulacaoValida(Matriz *m1, Matriz *m2){
-    if((m2->tamColuna == m2->tamLinha) && (m2->tamLinha % 2 == 1))
+    if((m2->tamLinha > 0 && m2->tamColuna > 0) && (m2->tamLinha % 2 == 1 && m2->tamColuna % 2 == 1))
         return 1;
     return 0;
 }

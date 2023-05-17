@@ -439,15 +439,16 @@ Matriz *matriz_convulacao(Matriz *m1, Matriz *kernel){
 data_type calcula_value_convulacao(Matriz *m1, Matriz *kernel, int linhaCentral, int colunaCentral){
     data_type value = 0;
     int Mlinha1 = 0, Mcoluna1 = 0, Mlinha2 = 0, Mcoluna2 = 0; //coordenadas para o slice
-    int Klinha1 = 1, Kcoluna1 = 0, Klinha2 = 0, Kcoluna2 = 0;
+    int Klinha1 = 0, Kcoluna1 = 0, Klinha2 = 0, Kcoluna2 = 0;
     int vazouLinha1 = 0, vazouColuna1 = 0, vazouLinha2 = 0, vazouColuna2 = 0;
-    int constant = 0;
+    int constantLin = 0, constantCol;
 
-    constant = (kernel->tamLinha/2);
-    Mlinha1 = linhaCentral - constant;
-    Mcoluna1 = colunaCentral - constant;
-    Mlinha2 = linhaCentral + constant;
-    Mcoluna2 = colunaCentral + constant;
+    constantLin = (kernel->tamLinha/2);
+    constantCol = (kernel->tamColuna/2);
+    Mlinha1 = linhaCentral - constantLin;
+    Mcoluna1 = colunaCentral - constantCol;
+    Mlinha2 = linhaCentral + constantLin;
+    Mcoluna2 = colunaCentral + constantCol;
 
     if(Mlinha1 < 0){
         vazouLinha1 = 0 - Mlinha1;
@@ -467,8 +468,8 @@ data_type calcula_value_convulacao(Matriz *m1, Matriz *kernel, int linhaCentral,
     }
     Klinha1 =  vazouLinha1;
     Kcoluna1 =  vazouColuna1;
-    Klinha2 =  2*constant - vazouLinha2;
-    Kcoluna2 = 2*constant - vazouColuna2;
+    Klinha2 =  2*constantLin - vazouLinha2;
+    Kcoluna2 = 2*constantCol - vazouColuna2;
     
     Matriz *m1Aux = matriz_slice(m1, Mlinha1, Mcoluna1, Mlinha2, Mcoluna2);
     Matriz *kernelAux = matriz_slice(kernel, Klinha1, Kcoluna1, Klinha2, Kcoluna2);
